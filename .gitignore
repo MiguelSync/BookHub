@@ -40,4 +40,4 @@ backend/.m2/
 backend/*.iws
 backend/*.iml
 backend/*.ipr
-backend/src/main/resources/.env
+backend/.env
