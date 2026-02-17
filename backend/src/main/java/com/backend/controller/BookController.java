@@ -21,7 +21,7 @@ public class BookController {
 
     public ResponseEntity<BookDto> getBook(@RequestBody Integer id) {
         BookDto bookDto = bookService.getBook(id.longValue());
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(bookDto);
     }
 
     @PostMapping("/store")
