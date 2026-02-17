@@ -23,8 +23,8 @@ public class BookService {
      * @param id ID of the book
      * @return Book DTO
      */
-    public BookDto getBook(Integer id) {
-        BookEntity bookEntity = bookRepository.findById(id.longValue()).orElseThrow(() -> new NonExistentBookException());
+    public BookDto getBook(Long id) {
+        BookEntity bookEntity = bookRepository.findById(id).orElseThrow(() -> new NonExistentBookException());
         return bookMapper.toDto(bookEntity);
     }
 
