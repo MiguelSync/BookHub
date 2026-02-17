@@ -2,7 +2,7 @@ package com.backend.exception;
 
 public class NonExistentBookException extends RuntimeException {
 
-    public NonExistentBookException() {
-        super("Livro não encontrado!");
+    public NonExistentBookException(Long id) {
+        super("Livro não encontrado para o ID " + id.intValue());
     }
 }

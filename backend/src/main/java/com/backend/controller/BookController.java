@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RestController
@@ -28,5 +25,11 @@ public class BookController {
     public ResponseEntity<BookDto> store(@RequestBody BookDto bookDto) {
         BookDto response = bookService.store(bookDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> delete(@RequestBody Integer id) {
+        bookService.delete(id.longValue());
+        return ResponseEntity.status(HttpStatus.OK).body("Livro deletado com sucesso!");
     }
 }

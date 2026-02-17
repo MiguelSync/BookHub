@@ -3,6 +3,7 @@ package com.backend.service;
 import com.backend.dto.BookDto;
 import com.backend.entity.BookEntity;
 import com.backend.enums.BookEnum;
+import com.backend.exception.CannotDeleteBookException;
 import com.backend.exception.NonExistentBookException;
 import com.backend.mapper.BookMapper;
 import com.backend.repository.BookRepository;
@@ -24,7 +25,7 @@ public class BookService {
      * @return Book DTO
      */
     public BookDto getBook(Long id) {
-        BookEntity bookEntity = bookRepository.findById(id).orElseThrow(() -> new NonExistentBookException());
+        BookEntity bookEntity = bookRepository.findById(id).orElseThrow(() -> new NonExistentBookException(id));
         return bookMapper.toDto(bookEntity);
     }
 
@@ -38,5 +39,19 @@ public class BookService {
         bookEntity.setStatus(BookEnum.STATUS_DISPONIVEL.getValue());
         bookRepository.save(bookEntity);
         return bookMapper.toDto(bookEntity);
+    }
+
+    /**
+     * Delete a book by his ID
+     * @param id The ID of the book
+     */
+    public void delete(Long id) {
+        BookEntity bookEntity = bookRepository.findById(id).orElseThrow(() -> new NonExistentBookException(id));
+
+        if (!bookEntity.canDelete()) {
+            throw new CannotDeleteBookException();
+        }
+
+        bookRepository.deleteById(bookEntity.getId());
     }
 }
