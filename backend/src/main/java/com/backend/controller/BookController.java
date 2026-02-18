@@ -16,6 +16,7 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+    @GetMapping("/getBook")
     public ResponseEntity<BookDto> getBook(@RequestBody Integer id) {
         BookDto bookDto = bookService.getBook(id.longValue());
         return ResponseEntity.status(HttpStatus.OK).body(bookDto);
