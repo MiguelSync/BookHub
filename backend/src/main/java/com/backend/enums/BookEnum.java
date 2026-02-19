@@ -2,7 +2,7 @@ package com.backend.enums;
 
 public enum BookEnum {
 
-    STATUS_DISPONIVEL(1, "Disponível");
+    STATUS_AVAIABLE(1, "Disponível");
 
     final int value;
     final String description;
