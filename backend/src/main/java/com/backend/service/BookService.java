@@ -4,6 +4,7 @@ import com.backend.dto.BookDto;
 import com.backend.entity.BookEntity;
 import com.backend.enums.BookEnum;
 import com.backend.exception.NonExistentBookException;
+import com.backend.exception.NotAvaiableBookException;
 import com.backend.mapper.BookMapper;
 import com.backend.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class BookService {
 
     @Autowired
     BookMapper bookMapper;
+
+    @Autowired
     BookRepository bookRepository;
 
     /**
@@ -35,8 +38,22 @@ public class BookService {
      */
     public BookDto store(BookDto bookDto) {
         BookEntity bookEntity = bookMapper.toClass(bookDto);
-        bookEntity.setStatus(BookEnum.STATUS_DISPONIVEL.getValue());
+        bookEntity.setStatus(BookEnum.STATUS_AVAIABLE.getValue());
         bookRepository.save(bookEntity);
         return bookMapper.toDto(bookEntity);
+    }
+
+    /**
+     * Delete a book
+     * @param id ID of the book
+     */
+    public void delete(Long id) {
+        BookEntity bookEntity = bookRepository.findById(id).orElseThrow(() -> new NonExistentBookException());
+
+        if (!bookEntity.isAvaiable()) {
+            throw new NotAvaiableBookException(bookEntity);
+        }
+
+        bookRepository.deleteById(bookEntity.getId());
     }
 }

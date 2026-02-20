@@ -27,4 +27,10 @@ public class BookController {
         BookDto response = bookService.store(bookDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @DeleteMapping("delete")
+    public ResponseEntity<String> delete(@RequestBody BookDto bookDto) {
+        bookService.delete(bookDto.id());
+        return ResponseEntity.status(HttpStatus.OK).body("Livro deletado com sucesso");
+    }
 }
