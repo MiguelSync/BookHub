@@ -28,6 +28,12 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PutMapping("update")
+    public ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) {
+        BookDto response = bookService.update(bookDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @DeleteMapping("delete")
     public ResponseEntity<String> delete(@RequestBody BookDto bookDto) {
         bookService.delete(bookDto.id());
