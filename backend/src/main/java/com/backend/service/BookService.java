@@ -7,6 +7,7 @@ import com.backend.exception.NonExistentBookException;
 import com.backend.exception.NotAvaiableBookException;
 import com.backend.mapper.BookMapper;
 import com.backend.repository.BookRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,18 @@ public class BookService {
     public BookDto store(BookDto bookDto) {
         BookEntity bookEntity = bookMapper.toClass(bookDto);
         bookEntity.setStatus(BookEnum.STATUS_AVAIABLE.getValue());
+        bookRepository.save(bookEntity);
+        return bookMapper.toDto(bookEntity);
+    }
+
+    /**
+     * Update an existing book
+     * @param bookDto Book DTO from request
+     * @return Book DTO updated
+     */
+    public BookDto update(BookDto bookDto) {
+        BookEntity bookEntity = bookRepository.findById(bookDto.id()).orElseThrow(() -> new NonExistentBookException());
+        bookMapper.updateEntityFromDto(bookDto, bookEntity);
         bookRepository.save(bookEntity);
         return bookMapper.toDto(bookEntity);
     }
